@@ -5,15 +5,16 @@
 """
 
 import urllib
-import urllib2,StringIO
+#import urllib2,StringIO
 import requests,re,os
 import datetime
+#from io import BytesIO
 # Send e-mail modules 
 #pip install mailer
 from mailer import Mailer
 from mailer import Message
 
-os.chdir(r'E:\main\infoq-architect')
+os.chdir(r'D:\infoq-architect')
 # Get date Year and Month 
 now = datetime.datetime.now()
 last_month = now.month - 1 
@@ -32,24 +33,34 @@ url_half01 = 'http://www.infoq.com/cn/minibooks/download/architect-'
 url = [url_half01, now_year, last_month, '?bookFormat=mobi']
 url = ''.join(url)
 """
-url = 'http://www.infoq.com/cn/minibooks/download/architect-%s%s?bookFormat=mobi' %(now_year, last_month))
+url = 'http://www.infoq.com/cn/minibooks/download/architect-%s%s?bookFormat=mobi' %(now_year, last_month)
 
 headers = { #伪装为浏览器抓取
         'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'
     }
 
 #r = requests.get(url, stream=True)
-r = requests.get(url, auth=('chenxuwq@163.com', '@Lan13826358458'))
+s = requests.Session()
+s.auth = ('chenxuwq@163.com', '123.com')
+s.get(url)
+
+"""
+r = requests.get(url, auth=('chenxuwq@163.com', '123.com'))
 
 if r.status_code == 200:
+    r.content
+"""
+
+"""
    # request = urllib2.Request(url,headers=headers)
-    response = urllib.urlopen(url)
+    response = urllib.request.urlopen(url)
  #   response = StringIO(response.read())
     with open("architect.mobi","wb") as f:
         f.write(response.read())
-    """#with open("architect.mobi", "wb") as code:
+    #with open("architect.mobi", "wb") as code:
         #code.write(r.content)
 
    # with open(url, "wb") as code:
-        #code.write(date)"""
-
+        #code.write(date)
+"""
+        
