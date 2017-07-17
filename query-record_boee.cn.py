@@ -1,8 +1,6 @@
 #!/bin/env python 
 # -*- coding: UTF-8 -*-
 #  Results study record from 'wwww.boee.cn'
-
-
 import os,sys,requests
 from bs4 import BeautifulSoup
 
@@ -22,7 +20,7 @@ def query_result(record_cycle, exam_number):
 
     rd_now_url = 'http://www.boee.cn/jtbm/cjcx.aspx'
     rd_history_url = 'http://www.boee.cn/jtbm/lscjcx.aspx'
-    result_file = 'C:/Users/Josery/Desktop/query-record.html'
+    result_file = "query-record_%s.html" %(record_cycle) 
 
     if record_cycle == 'now':
         record_url = rd_now_url
@@ -37,21 +35,22 @@ def query_result(record_cycle, exam_number):
         exit (2) 
 
 
-    rd_headers = {'Accept': '*/*',
-                    'Accept-Encoding': 'gzip, deflate',
-                    'Accept-Language': 'zh-CN,zh;q=0.8',
-                    'Cache-Control': 'no-cache',
-                    'Content-Length': '917',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                    'Host': 'www.boee.cn',
-                    'Origin': 'http://www.boee.cn',
-                    'Proxy-Connection': 'keep-alive',
-                    'Referer': record_url,
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-                    'X-MicrosoftAjax': 'Delta=true'
-                     }
+    rd_headers = {
+                'Accept': '*/*',
+                'Accept-Encoding': 'gzip, deflate',
+                'Accept-Language': 'zh-CN,zh;q=0.8',
+                'Cache-Control': 'no-cache',
+                'Content-Length': '917',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Host': 'www.boee.cn',
+                'Origin': 'http://www.boee.cn',
+                'Proxy-Connection': 'keep-alive',
+                'Referer': record_url,
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+                'X-MicrosoftAjax': 'Delta=true'
+    }
 
-    rd_now_data = { 
+    rd_now_data = {
                 'ctl00$ScriptManager1': 'ctl00$cph_Main$UpdatePanel1|ctl00$cph_Main$txtZKZ',
                 'ctl00$cph_Main$txtZKZ': exam_number,
                 '__EVENTTARGET': 'ctl00$cph_Main$txtZKZ',
@@ -61,26 +60,26 @@ def query_result(record_cycle, exam_number):
                 '__VIEWSTATEGENERATOR': 'B7F06CD5',
                 '__EVENTVALIDATION': '/wEWAwLdj7U9ApDc0uYIAv36+7ALJz78th1QF55eroyMXCoP8ba3TLI=',
                 '__ASYNCPOST': 'true'
-                }
+    }
 
 
-    rd_history_data = {'ctl00$ScriptManager1': 'ctl00$cph_Main$UpdatePanel1|ctl00$cph_Main$btnSearch', 
-                '__EVENTTARGET': '',
-                '__EVENTARGUMENT': '',
-                '__VIEWSTATE': 'wEPDwULLTE0ODEzOTYxMDEPZBYCZg9kFgICAw9kFgQCAw9kFgICAQ8WAh4EVGV4dAUfICZndDsg6Ieq6ICD5Y6G5Y+y5oiQ57up5p+l6K+iIGQCBw9kFgICAQ8WAh8ABYcCPGxpPjxhIGhyZWY9Imh0dHA6Ly93d3cuYm9lZS5jbi9qdGJtL2NqY3guYXNweCI+5oiQ57up5p+l6K+iPC9hPjwvbGk+PGxpPjxhIGhyZWY9Imh0dHA6Ly93d3cuYm9lZS5jbi9KVEJNL1pLUUtDWC5BU1BYIj7niaHkuLnoh6rogIPljaHliLbljaHmg4XlhrXmn6Xor6IgPC9hPjwvbGk+PGxpIGNsYXNzPSJzZWxlY3RlZCI+PGEgaHJlZj0iaHR0cDovL3d3dy5ib2VlLmNuL2p0Ym0vbHNjamN4LmFzcHgiPuiHquiAg+WOhuWPsuaIkOe7qeafpeivoiA8L2E+PC9saT5kGAEFFWN0bDAwJGNwaF9NYWluJGd2SW5mbw9nZHbrXfwuXphi38XevLpt98j9ZSwB',
-                '__VIEWSTATEGENERATOR': '7AC18158',
-                '__EVENTVALIDATION': '/wEWAwLStuyJCwKQ3NLmCAL9+vuwC3pGZ4WamjhHqRkePE2khQNa+1vX',
-                'ctl00$cph_Main$txtZKZ': exam_number,
-                '__ASYNCPOST': 'true',
-                }
+    rd_history_data = {
+                    'ctl00$ScriptManager1': 'ctl00$cph_Main$UpdatePanel1|ctl00$cph_Main$btnSearch', 
+                    '__EVENTTARGET': '',
+                    '__EVENTARGUMENT': '',
+                    '__VIEWSTATE': '/wEPDwULLTE0ODEzOTYxMDEPZBYCZg9kFgICAw9kFgQCAw9kFgICAQ8WAh4EVGV4dAUfICZndDsg6Ieq6ICD5Y6G5Y+y5oiQ57up5p+l6K+iIGQCBw9kFgICAQ8WAh8ABYcCPGxpPjxhIGhyZWY9Imh0dHA6Ly93d3cuYm9lZS5jbi9qdGJtL2NqY3guYXNweCI+5oiQ57up5p+l6K+iPC9hPjwvbGk+PGxpPjxhIGhyZWY9Imh0dHA6Ly93d3cuYm9lZS5jbi9KVEJNL1pLUUtDWC5BU1BYIj7niaHkuLnoh6rogIPljaHliLbljaHmg4XlhrXmn6Xor6IgPC9hPjwvbGk+PGxpIGNsYXNzPSJzZWxlY3RlZCI+PGEgaHJlZj0iaHR0cDovL3d3dy5ib2VlLmNuL2p0Ym0vbHNjamN4LmFzcHgiPuiHquiAg+WOhuWPsuaIkOe7qeafpeivoiA8L2E+PC9saT5kGAEFFWN0bDAwJGNwaF9NYWluJGd2SW5mbw9nZHbrXfwuXphi38XevLpt98j9ZSwB',
+                    '__VIEWSTATEGENERATOR': '7AC18158',
+                    '__EVENTVALIDATION': '/wEWAwLStuyJCwKQ3NLmCAL9+vuwC3pGZ4WamjhHqRkePE2khQNa+1vX',
+                    'ctl00$cph_Main$txtZKZ': exam_number,
+                    '__ASYNCPOST': 'true',
+                    'ctl00$cph_Main$btnSearch': '查询'
+    }
                 
-                
-
+            
     if record_cycle == 'now':
         rd_data = rd_now_data
     else:
         rd_data = rd_history_data
-
 
     r = s.post(record_url, data=rd_data, headers=rd_headers)
 
@@ -91,18 +90,17 @@ def query_result(record_cycle, exam_number):
         result = soup.div.prettify()
         with open(result_file, 'wt') as f:
             print (result, file=f)
-            # f.close()
     else:
-        print (r.text)
-        """
-        result = soup.table.prettify()
-        with open(result_file, 'wt') as f:
-            print (result, file=f)
-        """
-
+        #print (r.text)      
+        result0 = soup.find_all(id='ctl00_cph_Main_Panel1')
+        result1 = soup.find_all(id='ctl00_cph_Main_dvSucc')
+        with open(result_file, 'w+') as f:
+            print (result0, file=f)
+            print (result1, file=f)
+       
 # Call query_result() when this file is run as a script (not imported as a module)
 if __name__ == '__main__':
-    query_result (record_cycle=sys.argv[1], exam_number='12345678');
+    query_result (record_cycle=sys.argv[1], exam_number='315011230435');
 
 
 
