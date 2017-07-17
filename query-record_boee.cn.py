@@ -9,11 +9,12 @@ def usage():
 Usage: query-record_boee.cn.py [-h|--help]
 Description 
             -c, --record_cycle {now|history}.
+            exam_number 
             -h, --help      Display help information.
 
 for example:
     # 输入你的学号，查询历史成绩
-    py -3 query-record_boee.cn.py history [exam_number(学号)
+    py -3 query-record_boee.cn.py history exam_number(学号)
     """
 
 def query_result(record_cycle, exam_number):
@@ -100,7 +101,7 @@ def query_result(record_cycle, exam_number):
        
 # Call query_result() when this file is run as a script (not imported as a module)
 if __name__ == '__main__':
-    query_result (record_cycle=sys.argv[1], exam_number='12345678');
+    query_result (record_cycle=sys.argv[1], exam_number=sys.argv[2]);
 
 
 
