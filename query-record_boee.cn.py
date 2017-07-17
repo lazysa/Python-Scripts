@@ -100,7 +100,7 @@ def query_result(record_cycle, exam_number):
        
 # Call query_result() when this file is run as a script (not imported as a module)
 if __name__ == '__main__':
-    query_result (record_cycle=sys.argv[1], exam_number='315011230435');
+    query_result (record_cycle=sys.argv[1], exam_number='12345678');
 
 
 
