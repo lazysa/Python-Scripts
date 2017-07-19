@@ -22,7 +22,7 @@ for example:
     ) 
 
 def query_result(record_cycle, exam_number): 
-    rd_now_url = 'http://www.boee.cn/jtbm/cjc.aspx'
+    rd_now_url = 'http://www.boee.cn/jtbm/cjcx.aspx'
     rd_history_url = 'http://www.boee.cn/jtbm/lscjcx.aspx'
     result_file = "query-record_%s.html" %(record_cycle) 
 
