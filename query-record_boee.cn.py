@@ -59,16 +59,16 @@ def query_result(record_cycle, exam_number):
         record_url = rd_history_url
 
     # If Not in the query time, exit  
-#    try:
-#        s.get(record_url)
-#    except HTTPError as e:
-#        print(e)
-#        exit(2)
+    try:
+        check_url = s.get(record_url)
+        check_url.raise_for_status()
+    except requests.RequestException as e:
+        print(e)
+        exit(2)
+#    check = s.get(record_url)
+#    if check.status_code != 200:
+#        exit (2) 
 #
-    check = s.get(record_url)
-    if check.status_code != 200:
-        exit (2) 
-
    # Define record headers 
     rd_headers = {
                 'Accept': '*/*',
@@ -87,21 +87,24 @@ def query_result(record_cycle, exam_number):
 
     r = s.post(record_url, data=post_data, headers=rd_headers)
     
-
     # Transformation output results
     soup = BeautifulSoup(r.text, 'html.parser')
 
     if record_cycle == 'now':
+        # print div content 
         result = soup.div.prettify()
         with open(result_file, 'wt') as f:
-            print (result, file=f)
+            print(result, file=f)
     else:
+        # find history form vaules 
         result0 = soup.findAll(id='ctl00_cph_Main_Panel1')
         result1 = soup.findAll(id='ctl00_cph_Main_dvSucc')
         with open(result_file, 'w+') as f:
-            print (result0, file=f)
-            print (result1, file=f)
+            print(result0, file=f)
+            print(result1, file=f)
        
 # Call query_result() when this file is run as a script (not imported as a module)
 if __name__ == '__main__':
-        query_result (record_cycle=sys.argv[1], exam_number=sys.argv[2]);
+    query_result (sys.argv[1], sys.argv[2]);       
+   
+       
