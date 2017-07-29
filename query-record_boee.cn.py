@@ -52,10 +52,10 @@ def query_result(record_cycle, exam_number):
     }     
 
     if record_cycle == 'now':
-        post_data = now_data
+        login_data = now_data
         record_url = rd_now_url
     else:
-        post_data = history_data
+        login_data = history_data
         record_url = rd_history_url
 
     # If Not in the query time, exit  
@@ -85,7 +85,7 @@ def query_result(record_cycle, exam_number):
                 'X-MicrosoftAjax': 'Delta=true'
     }           
 
-    r = s.post(record_url, data=post_data, headers=rd_headers)
+    r = s.post(record_url, data=login_data, headers=rd_headers)
     
     # Transformation output results
     soup = BeautifulSoup(r.text, 'html.parser')
@@ -97,8 +97,8 @@ def query_result(record_cycle, exam_number):
             print(result, file=f)
     else:
         # find history form vaules 
-        result0 = soup.findAll(id='ctl00_cph_Main_Panel1')
-        result1 = soup.findAll(id='ctl00_cph_Main_dvSucc')
+        result0 = soup.find_all(id='ctl00_cph_Main_Panel1')
+        result1 = soup.find_all(id='ctl00_cph_Main_dvSucc')
         with open(result_file, 'w+') as f:
             print(result0, file=f)
             print(result1, file=f)
