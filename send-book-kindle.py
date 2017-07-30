@@ -3,10 +3,9 @@
 """ Usend to download mini-book on infoq 
     And send it to my Kindle 
 """
-
 import urllib
 #import urllib2,StringIO
-import requests,re,os
+import requests,re,os,sys
 import datetime
 #from io import BytesIO
 # Send e-mail modules 
@@ -14,10 +13,10 @@ import datetime
 from mailer import Mailer
 from mailer import Message
 
-
 os.chdir(r'D:\infoq-architect')
+result_file = "%s.pdf" %(sys.argv[0])
 
-def getUrl(): 
+def get_bookurl (): 
     # Get date Year and Month 
     now = datetime.datetime.now()
     last_month = now.month - 1 
@@ -31,30 +30,43 @@ def getUrl():
         last_month = str(0) + last_month
 
     # Get download URL
-    """
-    url_half01 = 'https://www.infoq.com/cn/minibooks/download/architect-'
+    s = requests.Session()
+    login_url = 'http://www.infoq.com/cn/'
+    url_half01 = 'http://www.infoq.com/cn/minibooks/download/architect-'
     url = [url_half01, now_year, last_month, '?bookFormat=pdf']
     url = ''.join(url)
-    """  
-    global url 
-    url = 'https://www.infoq.com/cn/minibooks/download/architect-%s%s?bookFormat=pdf' %(now_year, last_month)
+    
+    global book_url 
+    book_url = 'http://www.infoq.com/cn/minibooks/download/architect-%s%s?bookFormat=pdf' %(now_year, last_month)
+    
+    login_data = {'Email': 'chenxuwq@163.com', 'Password': '123.com',}
     global headers
     headers = { #伪装为浏览器抓取
         'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'
     }
 
-     
+    # Update login session 
+    r = s.post(login_url, data=login_data, headers=headers)
+    r = s.get(book_url, data=login_data, headers=headers)
+    #r = urllib.urlopen(book_url).read()
+
+    #print(r)
+    with open(result_file, 'wb') as f:
+        f.write(r.content)
+
     #r = requests.get(url, stream=True)
 
 
-getUrl()
+#getUrl()
 
-s = requests.Session()
-login_data = {'Email': 'chenxuwq@163.com', 'Password': '123.com',}
 
 # post 数据实现登录
-r = s.post('https://www.infoq.com', login_data)
-r = 
+
+# Call query_result() when this file is run as a script (not imported as a module)
+if __name__ == '__main__':
+    get_bookurl()
+
+
 
 
 
