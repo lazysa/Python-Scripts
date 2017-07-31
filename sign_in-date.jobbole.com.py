@@ -38,7 +38,7 @@ def sign_in ():
     result = respon_dict['jb_result']
 
     if result == 0:
-        result_f = '今天已签到，现有积分:%s. 一大波MM正在路上^~^' %(respon_dict['user_points'])
+        result_f = 'You\'ve already sing in today, Total:%s , a big wave MM is on the road ^~^' %(respon_dict['user_points'])
         with open(result_file, 'wt') as f:
             print(result_f, file=f)
     elif result == -1:
