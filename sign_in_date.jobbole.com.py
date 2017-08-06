@@ -33,7 +33,7 @@ def sign_in ():
         print(e)
         exit (2)
 
-    login_data = {'log': 'Lazysa', 'pwd': '123.com'}
+    login_data = {'log': 'YOUR_USER', 'pwd': 'YOUR_PASSWD'}
     headers = {
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Accept-Encoding': 'gzip, deflate',
