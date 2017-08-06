@@ -1,14 +1,30 @@
-#!/bin/env python 
+#!/bin/env python
 # -*- coding: utf-8 -*-
-""" Usend to download mini-book on infoq 
-    And send it to my Kindle 
 """
+# Run on Python3
+# Used to:   download mini-book on "infoq.com", And send it to your Kindle
+#------------------------------------------------------------------------------------------------
+# Developer:    xu.chen
+# Blog:         http://chenxu.info
+# Email:        linuxjosery@gmail.com
+# Created on:   2017/08/06
+# Location:
+# Execution:    send_book_kindle.py
+# Description:  在 "infoq.com" 上下载 "架构师"专题的电子书，最后发送到Kindle
+# Revision History:
+#
+# Name             Date            Description
+#------------------------------------------------------------------------------------------------
+# xu.chen        2017/08/06      Initial Version
+#------------------------------------------------------------------------------------------------
+"""
+
 import urllib
 #import urllib2,StringIO
 import requests,re,os,sys
 import datetime
 #from io import BytesIO
-# Send e-mail modules 
+# Send e-mail modules
 #pip install mailer
 from mailer import Mailer
 from mailer import Message
@@ -16,16 +32,16 @@ from mailer import Message
 os.chdir(r'D:\infoq-architect')
 result_file = "%s.pdf" %(sys.argv[0])
 
-def get_bookurl (): 
-    # Get date Year and Month 
+def get_bookurl ():
+    # Get date Year and Month
     now = datetime.datetime.now()
-    last_month = now.month - 1 
+    last_month = now.month - 1
 
-    # Int to String 
+    # Int to String
     now_year = str(now.year)
-    last_month = str(last_month)    
+    last_month = str(last_month)
 
-    # Single month to Doble month 
+    # Single month to Doble month
     if len(str(last_month)) == 1:
         last_month = str(0) + last_month
 
@@ -35,17 +51,17 @@ def get_bookurl ():
     url_half01 = 'http://www.infoq.com/cn/minibooks/download/architect-'
     url = [url_half01, now_year, last_month, '?bookFormat=pdf']
     url = ''.join(url)
-    
-    global book_url 
+
+    global book_url
     book_url = 'http://www.infoq.com/cn/minibooks/download/architect-%s%s?bookFormat=pdf' %(now_year, last_month)
-    
+
     login_data = {'Email': 'chenxuwq@163.com', 'Password': '123.com',}
     global headers
     headers = { #伪装为浏览器抓取
         'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'
     }
 
-    # Update login session 
+    # Update login session
     r = s.post(login_url, data=login_data, headers=headers)
     r = s.get(book_url, data=login_data, headers=headers)
     #r = urllib.urlopen(book_url).read()
@@ -71,7 +87,7 @@ if __name__ == '__main__':
 
 
 """
-# debug 
+# debug
 print (url)
 print (headers)
 """
@@ -105,4 +121,4 @@ if r.status_code == 200:
    # with open(url, "wb") as code:
         #code.write(date)
 """
-        
+

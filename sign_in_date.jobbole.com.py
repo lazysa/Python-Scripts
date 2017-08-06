@@ -1,6 +1,24 @@
-#!/usr/bin/env python
+#!/bin/env python
 # -*- coding: utf-8 -*-
-# Auto sing in on http://data.jobbole.com
+"""
+# Run on Python3
+# Used to:   Auto sing in on http://data.jobbole.com
+#------------------------------------------------------------------------------------------------
+# Developer:    xu.chen
+# Blog:         http://chenxu.info
+# Email:        linuxjosery@gmail.com
+# Created on:   2017/08/06
+# Location:
+# Execution:    sign_in_date.jobbole.com.py
+# Description:  自动在 "data.jobbole.com" 上签到，得到2积分
+# Revision History:
+#
+# Name             Date            Description
+#------------------------------------------------------------------------------------------------
+# xu.chen        2017/08/06      Initial Version
+#------------------------------------------------------------------------------------------------
+"""
+
 import sys,requests,json
 
 def sign_in ():

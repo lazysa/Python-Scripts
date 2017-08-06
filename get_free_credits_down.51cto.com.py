@@ -1,18 +1,35 @@
-#!/bin/python
+#!/bin/env python
 # -*- coding: utf-8 -*-
-# Auto get (free|download)_credits(下载豆) on http://down.51cto.com
+"""
+# Run on Python3
 # http://down.51cto.com/js/newjs/cent.js
-
+# Used to:   Auto get (free|download)_credits(下载豆) on http://down.51cto.com
+#------------------------------------------------------------------------------------------------
+# Developer:    xu.chen
+# Blog:         http://chenxu.info
+# Email:        linuxjosery@gmail.com
+# Created on:   2017/08/06
+# Location:
+# Execution:    get_free_credits_down.51cto.com.py
+# Description:  每天自动在 "down51cto.com" 领取下载豆
+# Revision History:
+#
+# Name             Date            Description
+#------------------------------------------------------------------------------------------------
+# xu.chen        2017/08/06      Initial Version
+#------------------------------------------------------------------------------------------------
+"""
 import random,re
 import sys,requests
 from bs4 import BeautifulSoup
+
 s = requests.Session()
 
 def result (result_msg):
     result_file = "%s.txt" %(sys.argv[0])
     with open(result_file, 'wt') as f:
         print(result_msg, file=f)
-	
+
 def get_free_credits ():
     login_url = 'http://home.51cto.com/index'
     # If url is disabled, exit
@@ -24,12 +41,12 @@ def get_free_credits ():
         exit (2)
 
     login_data = {
-	           '_csrf': 'WGNDcHpHa1kUIBoTDQ0bEjo2JR05M1g7NVUqHDQyOSkfUgoKPAUGBg==',					
-               'LoginForm[username]': 'chenxu123', 
-	           'LoginForm[password]': '123.com', 
+	           '_csrf': 'WGNDcHpHa1kUIBoTDQ0bEjo2JR05M1g7NVUqHDQyOSkfUgoKPAUGBg==',
+               'LoginForm[username]': 'chenxu123',
+	           'LoginForm[password]': '123.com',
 	           'LoginForm[rememberMe]': '1',
 	           'login-button': '登 录'
-    } 
+    }
 
     headers = {
 	        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -45,17 +62,17 @@ def get_free_credits ():
 		    'Referer': 'http://home.51cto.com/index?reback=http%253A%252F%252Fdown.51cto.com%252Fcredits',
 		    'Upgrade-Insecure-Requests': '1',
 		    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    }       
-    # Login website 
-    r = s.post(login_url, data=login_data, headers=headers) 
-    credits_url = 'http://down.51cto.com/download.php?do=getfreecredits&t=%s' %(random.random()) 
-    # send credits's request  
-    
+    }
+    # Login website
+    r = s.post(login_url, data=login_data, headers=headers)
+    credits_url = 'http://down.51cto.com/download.php?do=getfreecredits&t=%s' %(random.random())
+    # send credits's request
+
     r = s.post(credits_url)
-    result_tuple = ((r.text)) 
-    # convert result to tuple 
+    result_tuple = ((r.text))
+    # convert result to tuple
     cres_id = result_tuple[0]
-    # get cres_id 
+    # get cres_id
     cres_total = result_tuple[2:5]
     #print(result_tuple)
 
@@ -68,16 +85,16 @@ def get_free_credits ():
     else:
         result_msg = 'get 2 download_credits success!, Total: %s' %(cres_total)
         result(result_msg)
-""" 
+"""
     credits_url = 'http://down.51cto.com/credits'
     r = s.post(credits_url, data=login_data, headers=headers)
     soup = BeautifulSoup(r.text, 'html.parser')
     #print(soup)
-    
+
     result = soup.find_all(re.compile("class='channel0'"))
     print(result)
-"""    
-    
+"""
+
 # Call query_result() when this file is run as a script (not imported as a module)
 if __name__ == '__main__':
     get_free_credits()

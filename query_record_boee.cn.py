@@ -1,7 +1,23 @@
-#!/bin/env python 
-# -*- coding: UTF-8 -*-
-#  Results study record from 'wwww.boee.cn'
-
+#!/bin/env python
+# -*- coding: utf-8 -*-
+"""
+# Run on Python3
+# Used to:   Results study record from 'wwww.boee.cn'
+#------------------------------------------------------------------------------------------------
+# Developer:    xu.chen
+# Blog:         http://chenxu.info
+# Email:        linuxjosery@gmail.com
+# Created on:   2017/08/06
+# Location:
+# Execution:    query_record_boee.cn.py
+# Description:  在博益网上查询考试成绩，输入查询类型（本期|历史成绩）和学号
+# Revision History:
+#
+# Name             Date            Description
+#------------------------------------------------------------------------------------------------
+# xu.chen        2017/08/06      Initial Version
+#------------------------------------------------------------------------------------------------
+"""
 import os,sys,requests
 from bs4 import BeautifulSoup
 
@@ -9,22 +25,22 @@ def usage():
     print(
     """
 Usage: query-record_boee.cn.py {now|history} {exam_number}
-    Description 
+    Description
     {now|history}   # query mode
     {exam_number}   # need query's exam_number
 
 for example:
-    # query history exam result, use python3 run 
+    # query history exam result, use python3 run
     # 输入你的学号，查询历史成绩
     py -3 query-record_boee.cn.py history exam_number(学号)
     python query-record_boee.cn.py history exam_number(学号)
     """
-    ) 
+    )
 
-def query_result(record_cycle, exam_number): 
+def query_result(record_cycle, exam_number):
     rd_now_url = 'http://www.boee.cn/jtbm/cjcx.aspx'
     rd_history_url = 'http://www.boee.cn/jtbm/lscjcx.aspx'
-    result_file = "query-record_%s.html" %(record_cycle) 
+    result_file = "query-record_%s.html" %(record_cycle)
 
     s = requests.Session()
     now_data = {
@@ -37,10 +53,10 @@ def query_result(record_cycle, exam_number):
                 '__VIEWSTATEGENERATOR': 'B7F06CD5',
                 '__EVENTVALIDATION': '/wEWAwLdj7U9ApDc0uYIAv36+7ALJz78th1QF55eroyMXCoP8ba3TLI=',
                 '__ASYNCPOST': 'true'
-    }     
+    }
 
     history_data = {
-                     'ctl00$ScriptManager1': 'ctl00$cph_Main$UpdatePanel1|ctl00$cph_Main$btnSearch', 
+                     'ctl00$ScriptManager1': 'ctl00$cph_Main$UpdatePanel1|ctl00$cph_Main$btnSearch',
                      '__EVENTTARGET': '',
                      '__EVENTARGUMENT': '',
                      '__VIEWSTATE': '/wEPDwULLTE0ODEzOTYxMDEPZBYCZg9kFgICAw9kFgQCAw9kFgICAQ8WAh4EVGV4dAUfICZndDsg6Ieq6ICD5Y6G5Y+y5oiQ57up5p+l6K+iIGQCBw9kFgICAQ8WAh8ABYcCPGxpPjxhIGhyZWY9Imh0dHA6Ly93d3cuYm9lZS5jbi9qdGJtL2NqY3guYXNweCI+5oiQ57up5p+l6K+iPC9hPjwvbGk+PGxpPjxhIGhyZWY9Imh0dHA6Ly93d3cuYm9lZS5jbi9KVEJNL1pLUUtDWC5BU1BYIj7niaHkuLnoh6rogIPljaHliLbljaHmg4XlhrXmn6Xor6IgPC9hPjwvbGk+PGxpIGNsYXNzPSJzZWxlY3RlZCI+PGEgaHJlZj0iaHR0cDovL3d3dy5ib2VlLmNuL2p0Ym0vbHNjamN4LmFzcHgiPuiHquiAg+WOhuWPsuaIkOe7qeafpeivoiA8L2E+PC9saT5kGAEFFWN0bDAwJGNwaF9NYWluJGd2SW5mbw9nZHbrXfwuXphi38XevLpt98j9ZSwB',
@@ -49,7 +65,7 @@ def query_result(record_cycle, exam_number):
                      'ctl00$cph_Main$txtZKZ': exam_number,
                      '__ASYNCPOST': 'true',
                      'ctl00$cph_Main$btnSearch': '查询'
-    }     
+    }
 
     if record_cycle == 'now':
         login_data = now_data
@@ -58,7 +74,7 @@ def query_result(record_cycle, exam_number):
         login_data = history_data
         record_url = rd_history_url
 
-    # If Not in the query time, exit  
+    # If Not in the query time, exit
     try:
         check_url = s.get(record_url)
         check_url.raise_for_status()
@@ -67,9 +83,9 @@ def query_result(record_cycle, exam_number):
         exit(2)
 #    check = s.get(record_url)
 #    if check.status_code != 200:
-#        exit (2) 
+#        exit (2)
 #
-   # Define record headers 
+   # Define record headers
     rd_headers = {
                 'Accept': '*/*',
                 'Accept-Encoding': 'gzip, deflate',
@@ -83,28 +99,28 @@ def query_result(record_cycle, exam_number):
                 'Referer': record_url,
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
                 'X-MicrosoftAjax': 'Delta=true'
-    }           
+    }
 
     r = s.post(record_url, data=login_data, headers=rd_headers)
-    
+
     # Transformation output results
     soup = BeautifulSoup(r.text, 'html.parser')
 
     if record_cycle == 'now':
-        # print div content 
+        # print div content
         result = soup.div.prettify()
         with open(result_file, 'wt') as f:
             print(result, file=f)
     else:
-        # find history form vaules 
+        # find history form vaules
         result0 = soup.find_all(id='ctl00_cph_Main_Panel1')
         result1 = soup.find_all(id='ctl00_cph_Main_dvSucc')
         with open(result_file, 'w+') as f:
             print(result0, file=f)
             print(result1, file=f)
-       
+
 # Call query_result() when this file is run as a script (not imported as a module)
 if __name__ == '__main__':
-    query_result (sys.argv[1], sys.argv[2]);       
-   
-       
+    query_result (sys.argv[1], sys.argv[2]);
+
+
