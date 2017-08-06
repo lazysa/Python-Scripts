@@ -42,8 +42,8 @@ def get_free_credits ():
 
     login_data = {
 	           '_csrf': 'WGNDcHpHa1kUIBoTDQ0bEjo2JR05M1g7NVUqHDQyOSkfUgoKPAUGBg==',
-               'LoginForm[username]': 'chenxu123',
-	           'LoginForm[password]': '123.com',
+               'LoginForm[username]': 'YOUR_NAME',
+	           'LoginForm[password]': 'YOUR_PASSWD',
 	           'LoginForm[rememberMe]': '1',
 	           'login-button': '登 录'
     }
